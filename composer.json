@@ -1,0 +1,28 @@
+{
+    "name": "solidwebcl/geotool",
+    "type": "library",
+    "description": "A simple API extension for abstract Google Geocode and distance operations with coordinates",
+    "keywords": [
+        "geocode",
+        "geo",
+        "distance"
+    ],
+    "homepage": "http://solidweb.cl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johan Roure",
+            "email": "j.roure@solidweb.cl",
+            "homepage": "http://solidweb.cl"
+        }
+    ],
+    "require": {
+        "mjaschen/phpgeo": "^1.3",
+        "jstayton/google-maps-geocoder": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "GeoTool\\": "src/GeoTool/"
+        }
+    }
+}
