@@ -1,7 +1,7 @@
 <?php
 namespace GeoTool;
 
-use GoogleMapsGeocoder\GoogleMapsGeocoder;
+use \GoogleMapsGeocoder;
 use Location\Coordinate;
 use Location\Distance\Vincenty;
 
@@ -15,18 +15,19 @@ class GeoTool {
         $this->distance_helper = new Vincenty();
         return $this;
     }
-    public function setAddress()
+    public function setAddress($address)
     {
         $this->geocoder->setAddress($address);
         return $this;
     }
     public function getCoordinates()
     {
-        return $this->geocoder->geocode();
+        $result =  $this->geocoder->geocode();
+        return @$result['results'][0]['geometry']['location'];
     }
     public function createCoordinate($a)
     {
-        return new Coordinate($a['lat'], $a['lon']);
+        return new Coordinate($a['lat'], $a['lng']);
     }
     public function getDistance(array $a, array $b)
     {
@@ -49,5 +50,15 @@ class GeoTool {
         $closest = array_keys($distances, min($distances));
         
         return $closest[0];
+    }
+    public function getOrderedByClosestFromPool(array $a, array $abc)
+    {
+        foreach($abc as $key => $b){
+            $abc[$key]['distance'] = $this->getDistance($a, $b);
+        }
+        usort($abc, function($a, $b) {
+            return $a['distance'] - $b['distance'];
+        });
+        return $abc;
     }
 }
